@@ -14,6 +14,7 @@ export default class DataTransporter {
   private tid?: NodeJS.Timeout
   public flashInterval = 5000
   private sender: Sender
+  public flashing: boolean = false
 
   constructor(sender: Sender) {
     this.sender = sender
@@ -22,6 +23,7 @@ export default class DataTransporter {
     this.dataList.push(data)
   }
   public start(): void {
+    this.flash()
     this.tid = setInterval(() => {
       this.flash()
     }, this.flashInterval)
@@ -37,15 +39,20 @@ export default class DataTransporter {
    * this.dataListのnextFlashIndexから、最後までを送信する
    */
   public async flash(): Promise<boolean | undefined> {
+    if (this.flashing) {
+      throw new Error("aleady flashing")
+    }
+    this.flashing = true
     const startIndex = this.nextFlashIndex
     if (this.nextFlashIndex != this.dataList.length) {
       const nextIndex = this.dataList.length
-      const lastIndex = nextIndex - 1
       const sendData = this.dataList.slice(startIndex, nextIndex)
       const result = await this.sender.send(sendData)
       if (result) this.nextFlashIndex = nextIndex
+      this.flashing = false
       return result
     } else {
+      this.flashing = false
       return undefined
     }
   }

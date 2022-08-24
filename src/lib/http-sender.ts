@@ -8,6 +8,9 @@ export default class HttpSender implements Sender {
     this.url = props.url
   }
   async send(dataList: Data[]): Promise<any> {
-    return this.window.navigator.sendBeacon(this.url, JSON.stringify(dataList))
+    const data = new Blob([JSON.stringify(dataList)], {
+      type: "application/json",
+    })
+    return this.window.navigator.sendBeacon(this.url, data)
   }
 }

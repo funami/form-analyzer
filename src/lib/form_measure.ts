@@ -7,7 +7,7 @@ import { waitAppearTarget, getElementValue } from "./dom-utils"
 import HttpSender from "./http-sender"
 import DebugSender from "./debug-sender"
 
-type FormMeasureOption = {
+export type FormMeasureOption = {
   window: Window
   formSelector?: string
   sendGtagEvent?: boolean
@@ -16,7 +16,7 @@ type FormMeasureOption = {
   senderUrl?: string
 }
 
-export type FieldEvent = {
+type FieldEvent = {
   n: string // field name
   t: string | null // field type
   nn: string // field node name. ex. `input`
@@ -24,7 +24,7 @@ export type FieldEvent = {
   vl?: number | null // field value length
   c?: boolean | null // field checked
 }
-export type FormEvent = FieldEvent & {
+type FormEvent = FieldEvent & {
   i: number // event sequence. unique by formSessionId
   fst: string // form selector
   sid: string // form session id
@@ -62,6 +62,11 @@ export default class FormMeasure {
     this._sender = opt.dataSender
     this.init()
   }
+
+  /**
+   * senderの取得
+   * @return Senderを返す。constractorで Senderを渡さない場合は、defaultは DebugSender(), senderUrlをセットすることで HttpSenderを作成して返す
+   */
   sender(): Sender {
     if (!this._sender) {
       if (!this.senderUrl) {
@@ -174,22 +179,22 @@ export default class FormMeasure {
   start() {
     this.sequence = 0
     this.nextSessionId()
-    if (this.dataTransporter()) {
-      this.dataTransporter().flashInterval = 10000
-      this.dataTransporter().start()
-    }
     this.emit("form_session_start", {
       url: this.window.location.href,
       ua: this.window.navigator.userAgent,
       referer: this.window.document.referrer,
     })
+    if (this.dataTransporter()) {
+      this.dataTransporter().flashInterval = 10000
+      this.dataTransporter().start()
+    }
     waitAppearTarget(this.window, this.formSelector).then(() => {
       this.emit("form_appear")
     })
   }
 
   end() {
-    this.dataTransporter()?.end()
     this.emit("form_session_end")
+    this.dataTransporter()?.end()
   }
 }

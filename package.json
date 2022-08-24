@@ -1,11 +1,13 @@
 {
-  "name": "form-analyzer",
+  "name": "@funami/form-analyzer",
   "version": "1.0.0",
   "description": "fetch form actions and analytics",
-  "main": "dist/app.js",
+  "main": "lib/index.js",
   "scripts": {
+    "prestart": "npm run build-demo",
     "start": "web-dev-server --app-index demo/index.html --node-resolve --open --esbuild-target --watch",
-    "build": "esbuild src/app.ts --bundle --outfile=dist/app.js --define:global=window",
+    "build": "esbuild src/index.ts --bundle --outfile=lib/index.js --define:global=window",
+    "build-demo": "esbuild src/app.ts --bundle --outfile=dist/app.js --define:global=window",
     "test": "jest"
   },
   "repository": {

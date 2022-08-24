@@ -1,6 +1,5 @@
-import FormMeasure from "./lib/form_measure"
-const senderUrl = "https://form-measure-stlip2luqa-uc.a.run.app/"
-if (window.location.pathname.match(/demo/)) {
-  const fm = new FormMeasure({ window, senderUrl })
-  fm.start()
-}
+import { FormMeasure } from "./index"
+const senderUrl = "http://localhost:8000/fm/form_measure_post"
+
+const fm = new FormMeasure({ window, senderUrl })
+fm.start()

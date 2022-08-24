@@ -6,6 +6,11 @@ const postMiddleware = (ctx, next) => {
     ctx.body = JSON.stringify({ headers: ctx.headers, body }, null, 2)
     ctx.type = "application/json"
     return next()
+  } else if (ctx.url.match(/\/fm\/form_measure_post/) && ctx.method == "POST") {
+    const body = ctx.request.body
+    console.log(body)
+    ctx.body = "OK"
+    return next()
   } else {
     return next()
   }
