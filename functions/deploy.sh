@@ -1,12 +1,3 @@
-# form-analyzer
-
-fetch form actions and analytics
-
-## deploy cloud functions
-
-```.env
-API_KEY='[Api Key]'
-```
 
 npx dotenv-to-yaml .env # conv to .env.yaml
 

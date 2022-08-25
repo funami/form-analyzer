@@ -4,10 +4,9 @@
   "description": "fetch form actions and analytics",
   "main": "lib/index.js",
   "scripts": {
-    "prestart": "npm run build-demo",
-    "start": "web-dev-server --app-index demo/index.html --node-resolve --open --esbuild-target --watch",
-    "build": "esbuild src/index.ts --bundle --outfile=lib/index.js --define:global=window",
-    "build-demo": "esbuild src/app.ts --bundle --outfile=dist/app.js --define:global=window",
+    "start": "concurrently \"npm run build-demo-watch\" \"web-dev-server --app-index demo/index.html --node-resolve --open --esbuild-target --watch\"",
+    "build": "node ./esbuild.js",
+    "build-demo-watch": "node ./esbuild-demo-watch.js",
     "test": "jest"
   },
   "repository": {
@@ -26,6 +25,10 @@
     "@types/uuid": "^8.3.4",
     "@web/dev-server": "^0.1.34",
     "@web/dev-server-esbuild": "^0.3.2",
+    "concurrently": "^7.3.0",
+    "dotenv": "^16.0.1",
+    "esbuild": "^0.15.5",
+    "esbuild-envfile-plugin": "^1.0.3",
     "jest": "^28.1.3",
     "koa-bodyparser": "^4.3.0",
     "ts-jest": "^28.0.8",
@@ -33,7 +36,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "esbuild": "^0.15.5",
+    "css-selector-generator": "^3.6.4",
     "events": "^3.3.0",
     "local-storage": "^2.0.0",
     "md5": "^2.3.0",
