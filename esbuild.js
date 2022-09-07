@@ -1,5 +1,5 @@
 const env = process.env.NODE_ENV
-import dotenv from "dotenv"
+const dotenv = require("dotenv")
 dotenv.config()
 console.log({
   global: "window",
