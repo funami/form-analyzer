@@ -1,4 +1,4 @@
-import DataTransporter, { Sender, Data } from "./data_transporter"
+import DataTransporter, { Sender } from "./data_transporter"
 import { get, set } from "local-storage"
 import EventEmitter from "events"
 import GaConnect from "./ga_connect"
@@ -30,7 +30,7 @@ type FieldProps = {
   vl?: number | null // field value length
   c?: boolean | null // field checked
 }
-type FormEvent = FieldProps & {
+export type FormEvent = FieldProps & {
   i: number // event sequence. unique by formSessionId
   fst: string // form selector
   sid: string // form session id

@@ -3,7 +3,6 @@ npx dotenv-to-yaml .env # conv to .env.yaml
 
 gcloud beta functions deploy form-measure-event \
 --gen2 \
---region=asia-northeast1 \
 --runtime=nodejs16 \
 --entry-point=formMeasureEvent \
 --trigger-http \

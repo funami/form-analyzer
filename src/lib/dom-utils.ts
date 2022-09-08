@@ -1,5 +1,3 @@
-import GaConnect from "./ga_connect"
-
 export type WaitAppearTargetTestCondition = (
   window: Window,
   targetlement: HTMLElement
